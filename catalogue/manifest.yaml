@@ -21,7 +21,7 @@ spec:
  selector: 
    matchLabels: 
      tier: catalogue-middle-layer 
-template:
+ template:
   metadata: 
     labes: 
       tier: catalogue-middle-layer
