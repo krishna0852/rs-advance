@@ -1,0 +1,54 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+ name: catalogue-configmap 
+data:
+  MONGO_URL: mongodb://mongodb-service:27017/catalogue
+# here we have two mongodb end-points , the above one is to be considered 
+#since i have configured a new endpoint with replicaset iam using it 
+# not changing in server.js file, if i change then i need to rebuild the image again
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue
+spec:
+  selector:
+    matchLabels:
+      tier: catalogue-middle-layer # has to match .spec.template.metadata.labels
+  serviceName: "catalogue-service "
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        tier: catalogue-middle-layer # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: catalogue
+        image: devopshandson3/catalogue:v1 
+        ports:
+        - containerPort: 8080
+        envFrom: 
+        - configMap: 
+            name: catalogue-configmap
+ 
+     
+--- 
+
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: catalogue-service 
+spec:
+ selector:
+    tier: catalogue-middle-layer
+ ports:
+  - protocol: TCP 
+    port: 8080
+    targetPort: 8080
+   
+     
