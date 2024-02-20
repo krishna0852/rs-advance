@@ -23,7 +23,7 @@ spec:
      tier: catalogue-middle-layer 
  template:
   metadata: 
-    labes: 
+    labels: 
       tier: catalogue-middle-layer
   spec: 
    containers: 
