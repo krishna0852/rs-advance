@@ -18,9 +18,9 @@ spec:
 
 apiVersion: apps/v1
 kind: StatefulSet
-namespace: roboshop
 metadata:
   name: mongodb
+  namespace: roboshop
 spec:
   selector:
     matchLabels:
