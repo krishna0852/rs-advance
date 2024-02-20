@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb-service
+  namespace: roboshop
   labels:
     app: dbmongo
 spec:
@@ -17,6 +18,7 @@ spec:
 
 apiVersion: apps/v1
 kind: StatefulSet
+namespace: roboshop
 metadata:
   name: mongodb
 spec:
