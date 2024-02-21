@@ -4,14 +4,14 @@ metadata:
   name: mongo-service
   namespace: roboshop
   labels:
-    app: dbmongo
+    tier: mongodb
 spec:
   ports:
   - port: 27017
     name: mongodb
   clusterIP: None
   selector:
-    app: dbmongo
+    app: mongodb-layer
 --- 
 
 # statefulset configuration
@@ -24,14 +24,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      tier: mongo-db-layer # has to match .spec.template.metadata.labels
+      app: mongodb-layer # has to match .spec.template.metadata.labels
   serviceName: "mongo-service"
   replicas: 1 # by default is 1
   minReadySeconds: 10 # by default is 0
   template:
     metadata:
       labels:
-        tier: mongo-db-layer # has to match .spec.selector.matchLabels
+        app: mongodb-layer # has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
       containers:
