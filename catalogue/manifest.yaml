@@ -4,7 +4,7 @@ metadata:
  name: catalogue-configmap 
  namespace: roboshop
 data:
-  MONGO_URL: mongodb://mongodb-service:27017/catalogue
+  MONGO_URL: mongodb://mongo-service:27017/catalogue
 # here we have two mongodb end-points , the above one is to be considered 
 #since i have configured a new endpoint with replicaset iam using it 
 # not changing in server.js file, if i change then i need to rebuild the image again
