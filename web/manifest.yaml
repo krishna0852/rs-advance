@@ -24,20 +24,20 @@ data:
     tcp_nopush on;
     tcp_nodelay on;
     keepalive_timeout 65;
-   types_hash_max_size 2048;
-   large_client_header_buffers 6 32k;
-   client_max_body_size 100m;
+    types_hash_max_size 2048;
+    large_client_header_buffers 6 32k;
+    client_max_body_size 100m;
 
     # server_names_hash_bucket_size 64;
     # server_name_in_redirect off;
-   include /etc/nginx/mime.types;
-   default_type application/octet-stream;
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
 
      ##
     # Logging Settings
     ##
-   access_log /var/log/nginx/access.log;
-   error_log /var/log/nginx/error.log debug; # change from debug to warn or error for production
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log debug; # change from debug to warn or error for production
 
     ##
     # Gzip Settings
@@ -87,8 +87,8 @@ data:
     location /api/catalogue/ {
         proxy_pass http://catalogue-service:8080/;
     }
-    }
-    }
+   }
+   }
 
 ---
 apiVersion: v1 
