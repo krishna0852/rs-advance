@@ -1,62 +1,56 @@
 apiVersion: v1 
 kind: Service 
-metadata: 
-  name: mq-service 
+metadata:
+ name: redis
+ namespace: reids
 spec:
- selector: 
-  tier: mq-system 
-  type: rabbit-mq
- ports:
-  - port: 5672 
-    name: amqp 
-  - port: 15672 
-    name: http
+ selector:
+   tier: cacheing-service
+   app: redis 
+ ports: 
+  - protocol: TCP 
+    port: 6379
+    targetPort: 6379
+ clusterIP: None
 
 --- 
+
 
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: rabbit-mq
+  name: redis 
   namespace: roboshop
 spec:
   selector:
     matchLabels:
-      tier: mq-system 
-      type: rabbit-mq # has to match .spec.template.metadata.labels
-  serviceName: "mq-service"
+      tier: cacheing-service 
+      app: redis # has to match .spec.template.metadata.labels
+  serviceName: "redis"
   replicas: 1 # by default is 1
   minReadySeconds: 10 # by default is 0
   template:
     metadata:
       labels:
-       tier: mq-system 
-       type: rabbit-mq # has to match .spec.selector.matchLabels
+        tier: cacheing-service 
+        app: redis # has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-      - name: rabbitmq
-        image: rabbitmq
+      - name: redis
+        image: redis
         ports:
-        - containerPort: 5672
-          name: amqp 
-        - containerPort: 15672
-          name: http
+        - containerPort: 6379
+          name: redis-port
         volumeMounts:
-        - name: rabbitmq-volume
+        - name: redis-volume
           mountPath: /data
   volumeClaimTemplates:
   - metadata:
-      name: rabbitmq-volume
+      name: redis-volume
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "roboshop-efs-file-system"
+      storageClassName: "dynamic-provis"
       resources:
         requests:
           storage: 1Gi
-
- 
-
-
-
-
