@@ -12,6 +12,7 @@ spec:
     name: amqp 
   - port: 15672 
     name: http
+ clusterIP: None
 
 --- 
 
