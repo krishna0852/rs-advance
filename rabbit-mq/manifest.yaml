@@ -1,0 +1,62 @@
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: mq-service 
+spec:
+ selector: 
+  tier: mq-system 
+  type: rabbit-mq
+ ports:
+  - port: 5672 
+    name: amqp 
+  - port: 15672 
+    name: http
+
+--- 
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbit-mq
+  namespace: roboshop
+spec:
+  selector:
+    matchLabels:
+      tier: mq-system 
+      type: rabbit-mq # has to match .spec.template.metadata.labels
+  serviceName: "mq-service"
+  replicas: 1 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+       tier: mq-system 
+       type: rabbit-mq # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: rabbitmq
+        image: rabbitmq
+        ports:
+        - containerPort: 5672
+          name: amqp 
+        - containerPort: 15672
+          name: http
+        volumeMounts:
+        - name: rabbitmq-volume
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: rabbitmq-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "dynamic-provis"
+      resources:
+        requests:
+          storage: 1Gi
+
+ 
+
+
+
+

@@ -48,7 +48,7 @@ spec:
       name: mongodb-volume
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "roboshop-efs-file-system"
+      storageClassName: "dynamic-provis"
       resources:
         requests:
           storage: 1Gi
