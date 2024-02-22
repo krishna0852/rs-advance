@@ -87,6 +87,8 @@ data:
     location /api/catalogue/ {
         proxy_pass http://catalogue-service:8080/;
     }
+    }
+    }
 
 ---
 apiVersion: v1 
