@@ -45,7 +45,7 @@ spec:
           name: http
         volumeMounts:
         - name: rabbitmq-volume
-          mountPath: /data
+          mountPath: /var/lib/rabbitmq
   volumeClaimTemplates:
   - metadata:
       name: rabbitmq-volume
