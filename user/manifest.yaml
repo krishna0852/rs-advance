@@ -39,8 +39,9 @@ spec:
      app: user 
  template:
   metadata: 
-    tier: login
-    app: user
+    labels: 
+     tier: login
+     app: user
   spec: 
    containers: 
      - name: user
