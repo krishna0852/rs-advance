@@ -1,0 +1,52 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata:
+  name: cart-config
+  namespace: roboshop
+data:
+  REDIS_HOST: "redis"
+  CATALOGUE_HOST: http://catalogue-service:8080
+
+---
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: cart-service 
+  namespace: roboshop
+spec:
+ selector: 
+   tier: middle 
+   app: cart 
+ ports: 
+  - protocol: TCP 
+    port: 8080
+    targetPort: 8080
+--- 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart
+  namespace: roboshop
+spec:
+ replicas: 1 
+ selector: 
+   matchLabels: 
+      tier: middle 
+      app: cart 
+ template:
+  metadata: 
+    labels: 
+      tier: middle 
+      app: cart 
+  spec: 
+   containers: 
+     - name: cart
+       image: devopshandson3/cartk8:v1
+       ports: 
+        - containerPort: 8080 
+       envFrom:
+       - configMapRef:
+           name: cart-config
+
+
