@@ -97,7 +97,7 @@ data:
     }
 
      location /api/shipping/ {
-        proxy_pass http://shipping-service:8080/;
+        proxy_pass http://shipping-service;
     }
 
    }
