@@ -46,7 +46,8 @@ spec:
   spec: 
    containers: 
      - name: shipping
-       image: devopshandson3/shipping:v1 
+       #image: devopshandson3/shipping:v1 
+       image: techworldwithsiva/shipping:k8
        ports: 
          - containerPort: 8080 
        envFrom: 
