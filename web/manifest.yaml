@@ -141,6 +141,13 @@ spec:
        image: devopshandson3/rs-web:v1
        ports: 
         - containerPort: 80
+       resources:
+         requests:
+          cpu: "50m"
+          memory: "90Mi"
+         limits:
+          cpu: "90m"
+          memory: "120Mi"
        volumeMounts: 
        - name: nginx-config 
          mountPath: /etc/nginx/nginx.conf
