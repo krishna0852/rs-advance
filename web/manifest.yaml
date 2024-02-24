@@ -143,10 +143,10 @@ spec:
         - containerPort: 80
        resources:
          requests:
-          cpu: "50m"
+          cpu: "10m"
           memory: "90Mi"
          limits:
-          cpu: "90m"
+          cpu: "12m"
           memory: "120Mi"
        volumeMounts: 
        - name: nginx-config 
@@ -160,3 +160,18 @@ spec:
         items: 
           - key: nginx.conf 
             path: nginx.conf
+
+--- 
+apiVersion: autoscaling/v1 
+kind: HorizontalPodAutoScaler 
+metadata: 
+ name: web-hpa 
+ namespace: roboshop 
+spec: 
+ scaleTargetRef:
+   apiVersion: apps/v1 
+   kind: Deployment 
+   name: web 
+ minReplicas: 1 
+ maxReplicas: 5 
+ targetCPUUtilizationPercentage: 13
